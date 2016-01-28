@@ -7,7 +7,7 @@ $dbh = new PDO($dsn,$user,$password);
 $dbh->query('SET NAMES utf8');
 
 // SQL文
-$sql = 'SELECT * FROM `areas`';
+$sql = 'SELECT `areas`.`area_id`, `areas`.`area_name`, COUNT(`friends`.`friend_id`) AS friends_cnt FROM `areas` LEFT OUTER JOIN `friends` ON `areas`.`area_id` = `friends`.`area_id` WHERE 1 GROUP BY `areas`.`area_id`';
 
 // SQL実行
 $stmt = $dbh->prepare($sql);
@@ -96,7 +96,7 @@ $dbh=null;
             <tr>
               <td><div class="text-center"><?php echo $area['area_id']; ?></div></td>
               <td><div class="text-center"><a href="show.php?area_id=<?php echo $area['area_id']; ?>"><?php echo $area['area_name']; ?></a></div></td>
-              <td><div class="text-center">3</div></td>
+              <td><div class="text-center"><?php echo $area['friends_cnt']; ?></div></td>
             </tr>
             <?php
               }
