@@ -77,7 +77,14 @@ $dbh=null;
     <![endif]-->
     <script type="text/javascript">
     function destroy(){
-      alert('こんにちは！');
+      if(confirm('削除しますか？')){
+        // OKボタンをおした時
+        location.href = 'show.php';
+        return true;
+      } else {
+        // キャンセルボタンをおした時
+        return false;
+      }
     }
     </script>
   </head>
