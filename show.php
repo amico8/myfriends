@@ -6,6 +6,18 @@ $password = '';
 $dbh = new PDO($dsn,$user,$password);
 $dbh->query('SET NAMES utf8');
 
+// 削除処理
+if (isset($_GET['action']) && !empty($_GET['action'])) {
+  if ($_GET['action'] == 'delete') {
+    $sql = 'DELETE FROM `friends` WHERE `friend_id` = ' . $_GET['friend_id'];
+    // SQL実行
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute();
+
+    header('Location: index.php');
+  }
+}
+
 $area_id = $_GET['area_id'];
 
 // 都道府県名を表示するための処理
