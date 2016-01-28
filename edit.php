@@ -102,7 +102,11 @@ $dbh = null;
                 <select class="form-control" name="area_id">
                   <option value="0">出身地を選択</option>
               <?php foreach ($areas as $area) { ?>
+              <?php if ($area['area_id'] == $friends['area_id']) { ?>
                   <option value="<?php echo $area['area_id']; ?>" selected><?php echo $area['area_name']; ?></option>
+              <?php } else{ ?>
+                  <option value="<?php echo $area['area_id']; ?>"><?php echo $area['area_name']; ?></option>
+              <?php } ?>
               <?php } ?>
                 </select>
               </div>
