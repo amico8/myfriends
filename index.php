@@ -26,6 +26,28 @@ while(1){
   $areas[]=$rec;
 }
 
+// 友達のあいまい検索
+// POSTがあるかどうかチェック
+// 取得データ格納用Array
+$friends = array();
+if (isset($_POST) && !empty($_POST['search_friend'])) {
+  $sql = 'SELECT * FROM `friends` WHERE `friend_name` LIKE "%'.$_POST['search_friend'].'%"';
+
+  // SQL実行
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+
+  while(1){
+    // データ取得
+    $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($rec == false){
+      break;
+    }
+    // データ格納
+    $friends[]=$rec;
+  }
+}
+
 //データベース切断
 $dbh=null;
 
@@ -80,6 +102,31 @@ $dbh=null;
   <div class="container">
     <div class="row">
       <div class="col-md-4 content-margin-top">
+      <legend>友達検索</legend>
+      <p>
+      <form method="post" action="index.php">
+      <input type="text" name="search_friend" value="">
+      <input type="submit" class="btn btn-default" value="検索">
+      </form>
+      </p>
+        <table class="table table-striped table-bordered table-hover table-condensed">
+          <thead>
+            <tr>
+              <th><div class="text-center">友達の名前</div></th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php
+           foreach ($friends as $friend) { ?>
+            <tr>
+              <td><div class="text-center"><?php echo $friend['friend_name']; ?></div></td>
+            </tr>
+          <?php } ?>
+          </tbody>
+        </table>
+
+
+
       <legend>都道府県一覧</legend>
         <table class="table table-striped table-bordered table-hover table-condensed">
           <thead>
