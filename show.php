@@ -60,6 +60,27 @@ while(1){
   }
 }
 
+// 平均年齢取得
+// SQL文
+$sql = 'SELECT `gender`, TRUNCATE(AVG(`age`), 2) AS avgAge FROM `friends` WHERE `area_id` = '.$area_id.' GROUP BY `gender`';
+
+// SQL実行
+$stmt = $dbh->prepare($sql);
+$stmt->execute();
+
+// 取得データ格納用Array
+$avgAge = array();
+
+while(1){
+  // データ取得
+  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+  if($rec == false){
+    break;
+  }
+  // データ格納
+  $avgAge[]=$rec;
+}
+
 //データベース切断
 $dbh=null;
 
@@ -127,7 +148,10 @@ $dbh=null;
     <div class="row">
       <div class="col-md-4 content-margin-top">
       <legend><?php echo $area['area_name']; ?>の友達</legend>
-      <div class="well">男性：<?php echo $male; ?>名　女性：<?php echo $female; ?>名</div>
+      <div class="well">
+      男性：<?php echo $male; ?>名　女性：<?php echo $female; ?>名<br/>
+      男性平均：<?php echo $avgAge[0]['avgAge']; ?>歳　女性平均：<?php echo $avgAge[1]['avgAge']; ?>歳
+      </div>
         <table class="table table-striped table-hover table-condensed">
           <thead>
             <tr>
