@@ -150,7 +150,17 @@ $dbh=null;
       <legend><?php echo $area['area_name']; ?>の友達</legend>
       <div class="well">
       男性：<?php echo $male; ?>名　女性：<?php echo $female; ?>名<br/>
-      男性平均：<?php echo $avgAge[0]['avgAge']; ?>歳　女性平均：<?php echo $avgAge[1]['avgAge']; ?>歳
+      <?php if ($avgAge[0]['gender'] == 2) {
+        echo '男性平均：-歳　';
+        echo '女性平均：' . $avgAge[0]['avgAge'] . '歳';
+      } else if (empty($avgAge[1]['gender'])) {
+        echo '男性平均：' . $avgAge[0]['avgAge'] . '歳　';
+        echo '女性平均：-歳';
+      } else {
+        echo '男性平均：' . $avgAge[0]['avgAge'] . '歳　';
+        echo '女性平均：' . $avgAge[1]['avgAge'] . '歳';
+      }
+      ?>
       </div>
         <table class="table table-striped table-hover table-condensed">
           <thead>
